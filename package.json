@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/JJSepulveda/consumo-api-rest-practico/issues"
   },
-  "homepage": "https://github.com/JJSepulveda/consumo-api-rest-practico#readme"
+  "homepage": "https://github.com/JJSepulveda/consumo-api-rest-practico#readme",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
 }
