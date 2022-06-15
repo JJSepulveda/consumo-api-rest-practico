@@ -1,18 +1,26 @@
 /*
-
+	API_KEY viene de secrets.js
 */
 
-console.log("Comenzamos...")
 
 const API_URL = "https://api.themoviedb.org/3"
 const IMAGE_URL_W300 = "https://image.tmdb.org/t/p/w300"
-const API_URL_TRENDING = (media_type, time_window) => `https://api.themoviedb.org/3/trending/${media_type}/${time_window}`
-const API_CATEGORIES_URL = API_URL + "/genre/movie/list"
+
+const ENDPOINT_TRENDING = (media_type, time_window) => `/trending/${media_type}/${time_window}`
+const ENDPOINT_CATEGORIES = "/genre/movie/list"
+
+const api = axios.create({
+	baseURL: API_URL,
+	headers: {
+		'content-type': 'application/json;charset=utf-8'
+	},
+	params: {
+		'api_key': API_KEY
+	}
+})
 
 const getTrendingMoviesPreview = async () => {
-	console.log(API_URL_TRENDING('movie', 'day') + "?api_key=" + API_KEY)
-	const response = await fetch(API_URL_TRENDING('movie', 'day') + "?api_key=" + API_KEY);
-	const data = await response.json();
+	const { data } = await api(ENDPOINT_TRENDING('movie', 'day'));
 	const movies = data.results;
 
 	console.log({data, movies})
@@ -39,9 +47,7 @@ const getTrendingMoviesPreview = async () => {
 }
 
 const getCategoriesPreview = async () => {
-	console.log(API_CATEGORIES_URL)
-	const response = await fetch(API_CATEGORIES_URL + "?api_key=" + API_KEY);
-	const data = await response.json();
+	const { data } = await api(ENDPOINT_CATEGORIES);
 	const categories = data.genres;
 
 	console.log({data, categories})
