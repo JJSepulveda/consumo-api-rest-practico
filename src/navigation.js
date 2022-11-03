@@ -6,7 +6,10 @@ window.addEventListener('DOMContentLoaded', navigator, false);
 window.addEventListener('hashchange', navigator, false);
 
 searchFormBtn.addEventListener('click', () => {
-  location.hash = '#search=';
+	// obtener el valor de busqueda
+	const serachValue = searchFormInput.value;
+	// cambiar el hash
+  	location.hash = '#search=' + serachValue;
 });
 
 trendingBtn.addEventListener('click', () => {
@@ -14,7 +17,11 @@ trendingBtn.addEventListener('click', () => {
 });
 
 arrowBtn.addEventListener('click', () => {
-  location.hash = '#home';
+	// location.hash = '#home';
+	// vamos a hacer que cuando se de a la flecha
+	// regrese a la pagina anterior.
+	// location.hash = window.history.back();
+	history.back()
 });
 
 
@@ -46,7 +53,7 @@ function navigator()
 	// cada vez que se "recarge" la pagina
 	// quitamos el scroll para que la vista se vea
 	// desde el inicio
-	
+
 	//window.scrollTo(0, 0);
 	document.body.scrollTop = 10;
 	document.documentElement.scrollTop = 10;
@@ -112,6 +119,9 @@ function movieDetailsPage() {
   categoriesPreviewSection.classList.add('inactive');
   genericSection.classList.add('inactive');
   movieDetailSection.classList.remove('inactive');
+
+  const [_, movieId] = location.hash.split('=') // ['#movie', 'id-movie']
+  getMovieById(movieId);
 }
 
 function searchPage() {
@@ -122,13 +132,18 @@ function searchPage() {
 	arrowBtn.classList.remove('inactive');
 	arrowBtn.classList.remove('header-arrow--white');
 	headerTitle.classList.add('inactive');
-	headerCategoryTitle.classList.remove('inactive');
+	headerCategoryTitle.classList.add('inactive');
 	searchForm.classList.remove('inactive');
 
 	trendingPreviewSection.classList.add('inactive');
 	categoriesPreviewSection.classList.add('inactive');
 	genericSection.classList.remove('inactive');
 	movieDetailSection.classList.add('inactive');
+
+	// logica para buscar la pelicula
+	const [_, query] = location.hash.split('=') // ['#search', 'searchValue']
+	
+	getMoviesBySearch(query);
 }
 
 function trendsPage() {
@@ -146,4 +161,9 @@ function trendsPage() {
 	categoriesPreviewSection.classList.add('inactive');
 	genericSection.classList.remove('inactive');
 	movieDetailSection.classList.add('inactive');
+
+	headerCategoryTitle.innerHTML = 'Tendencias'
+
+	// petición las pelituclas e ntendencias
+	getMoviesTrendingMovies()
 }
